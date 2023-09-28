@@ -25,11 +25,27 @@ function incrementScore(playerIndex, scoreIndex) {
 
 function checkWin() {
   for (let i = 0; i < numPlayers; i++) {
-    const sum = scores.value[i].reduce((a,b) => a+b,0)
+    const sum = scores.value[i].reduce((a,b) => a+b,0);
     if (sum >= scores.value[i].length*3 && totalScores.value[i]==Math.max(...totalScores.value)) {
       alert(playerNames.value[i] + ' wins!')
     }
   }
+}
+
+async function saveScore() {
+  const scoreRecord = {
+    names: playerNames.value,
+    totalScores: totalScores.value,
+    scores: scores.value
+  }
+  const response = await fetch("SOMEURL", {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(scoreRecord), 
+  });
+  console.log(response.json()); // parses JSON response into native JavaScript objects
 }
 
 </script>
@@ -42,7 +58,9 @@ function checkWin() {
     <table>
       <thead>
         <tr>
-          <td></td>
+          <td>
+            <button @click=saveScore()>Save Score</button>
+          </td>
           <td>
             <input v-model="playerNames[0]">
           </td>
