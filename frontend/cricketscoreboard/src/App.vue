@@ -38,14 +38,20 @@ async function saveScore() {
     totalScores: totalScores.value,
     scores: scores.value
   }
-  const response = await fetch("SOMEURL", {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(scoreRecord), 
-  });
-  console.log(response.json()); // parses JSON response into native JavaScript objects
+  console.log(JSON.stringify(scoreRecord))
+  try {
+    const response = await fetch("http://192.168.1.41:3000/save", {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(scoreRecord),
+    });
+
+    console.log("Success:");
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
 </script>
